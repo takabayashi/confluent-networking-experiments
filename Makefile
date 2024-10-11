@@ -27,3 +27,7 @@ cc-latency-metrics:
 	python kafka_latency_checker.py check-latency --platform=cc
 cc-metrics: cc-latency-metrics
 
+test-ssh:
+	chmod 400 ./aws/tf/.ssh/terraform_aws_rsa
+	ssh -i ./aws/tf/.ssh/terraform_aws_rsa ubuntu@3.146.65.88
+
