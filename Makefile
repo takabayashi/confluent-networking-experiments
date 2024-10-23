@@ -27,7 +27,11 @@ cc-latency-metrics:
 	python kafka_latency_checker.py check-latency --platform=cc
 cc-metrics: cc-latency-metrics
 
-test-ssh:
-	chmod 400 ./aws/tf/.ssh/terraform_aws_rsa
-	ssh -i ./aws/tf/.ssh/terraform_aws_rsa ubuntu@3.146.65.88
+ssh:
+	chmod 400 ./enterprise_cluster/tf/.ssh/terraform_aws_rsa
+	ssh -i ./enterprise_cluster/tf/.ssh/terraform_aws_rsa ubuntu@18.229.150.204
 
+connectivity:
+	export BOOTSTRAP=lkc-06wgrp.sa-east-1.aws.private.confluent.cloud
+	openssl s_client -connect $$BOOTSTRAP:9092 -servername $$BOOTSTRAP -verify_hostname $$BOOTSTRAP </dev/null 2>/dev/null | grep -E 'Verify return code|BEGIN CERTIFICATE' | xargs
+	openssl s_client -connect $BOOTSTRAP:443 -servername $BOOTSTRAP -verify_hostname $BOOTSTRAP </dev/null 2>/dev/null | grep -E 'Verify return code|BEGIN CERTIFICATE' | xargs
